@@ -105,7 +105,45 @@ Output arguments:
 
 - ``-viz`` is an optional argument to specify whether the visualized plot is generated or not. By default the program will not generate the visualized plot. Explicitly set ``-viz`` to be able to generate the visualized plot.
 
-	
+
+----------
+An Usage Example of Hetero-RP
+------------------------
+
+Here we go through an example step by step. You can find a folder named "metagenome" and decompress the data files ``metagenome_data_abundance_dim10_repeat1.csv.gz`` and ``metagenome_data_composition.csv.gz``, the auxiliary knowledge file ``metagenome_auxiliary_coalignment.csv.gz``:
+
+```sh
+$ cd metagenome/
+$ gunzip metagenome_data_abundance_dim10_repeat1.csv.gz
+$ gunzip metagenome_data_composition.csv.gz
+$ gunzip metagenome_auxiliary_coalignment.csv.gz
+$ cd ..
+```
+We then use Hetero-RP to re-weigh the features of the given input data files:
+
+```sh
+$ python heteroRP.py -data_files metagenome/metagenome_data_abundance_dim10_repeat1.csv metagenome/metagenome_data_composition.csv -signed_graph_file metagenome/metagenome_auxiliary_coalignment.csv -output_dir metagenome/ -viz -use_knn
+```
+Then feature weights will be saved into files corresponding to the data files, named ``feat_metagenome_data_abundance_dim10_repeat1.csv`` and ``feat_metagenome_data_composition.csv``. 
+
+
+----------
+Visualization of Hetero-RP Output
+------------------------
+
+Hetero-RP provides a convenient way to visualize and analyze the output new weights through web browser. In particular, a webpage named ``visual.html`` will be generated under the ``OUTPUT_DIR``. The plot is based on circosJS [1], a d3 javascript library to build circular graphs. The plot mainly contains three parts: 
+
+(1) The outer circle is the histogram showing the weights for features. Features from different data sources are colorred differently. When the mouse moves over the corresponding feature, the detailed information and weight values is shown in the popup message box.
+
+(2) The middle circle is the label showing the name of different data sources, corresponding to the different colors of the histogram.
+
+(3) The inner circles are the heatmaps delivering more straightforward message of feature values. There are overall eight heatmaps from outside to inside, representing whether the corresponding feature falls in the range of [1.2,+Inf), [1.1,1.2), [1.0,1.1), [0.9,1.0), [0.8,0.9), [0.7,0.8), [0.6,0.7), and [0,0.6), respectively. The higher of the feature value, the darker of the heatmap color.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/younglululu/Hetero-RP/master/snapshot.jpg"/>
+</p>
+
+
 ----------
 Contacts and bug reports
 ------------------------
@@ -139,7 +177,7 @@ this program. If not, see http://www.gnu.org/licenses/.
 ----------
 References
 ---------------------------------
-[1] cvxr.com/cvx/
+[1] https://github.com/nicgirault/circosjs
 
 
 
