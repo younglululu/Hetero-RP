@@ -98,6 +98,13 @@ Program arguments:
 
 - ``-lambdaVal LAMBDAVAL`` specifies the parameter which shrinks weight towards unit and towards each other. By default ``LAMBDAVAL`` is automatically chosen by Scaled-Lasso.
 
+
+Output arguments:
+
+- ``-output_dir OUTPUT_DIR`` specifies the output folder to store the output result. By default ``OUTPUT_DIR`` is set as the current directory.
+
+- ``-viz`` is an optional argument to specify whether the visualized plot is generated or not. By default the program will not generate the visualized plot. Explicitly set ``-viz`` to be able to generate the visualized plot.
+
 	
 ----------
 Contacts and bug reports
