@@ -54,9 +54,8 @@ Hetero-RP uses several command line options, here is a
 complete documentation of these. These can also be viewed by typing ``heteroRP.py
 -h`` on the command line:
 
-.. code:: python
 
-    """Usage: usage: heteroRP.py [-h] [-skip_row_header] [-skip_column_header]
+    **Usage**:  heteroRP.py [-h] [-skip_row_header] [-skip_column_header]
                    [-object_in_row] [-sep SEP]
                    [-data_files DATA_FILES [DATA_FILES ...]]
                    [-signed_graph_file SIGNED_GRAPH_FILE]
@@ -64,26 +63,30 @@ complete documentation of these. These can also be viewed by typing ``heteroRP.p
                    [-p_value P_VALUE] [-use_knn] [-k K] [-gammaVal GAMMAVAL]
                    [-lambdaVal LAMBDAVAL] [-output_dir OUTPUT_DIR] [-viz]
 
-    -h --help    show this
-    -s --sorted  sorted output
-    -o FILE      specify output file [default: ./test.txt]
-    --quiet      print less text
-    --verbose    print more text
 
-    """
+Input arguments:
+  
+- ``-skip_row_header`` is an optional argument to control whether the first column indicates the header. By default the program assumes there is no header explicitly given in the first column.Explicitly set ``-skip_row_header`` to be able to skip the first column as header for downstream analysis.
+
+- ``-skip_column_header`` is an optional argument to control whether the first row indicates the header. By default the program assumes there is no header explicitly given in the first row. Explicitly set ``-skip_column_header`` to be able to skip the first row as header for downstream analysis.
+
+- ``-object_in_row`` is an optional argument to control whether each row represents an object and each column represents a feature. By default the program assumes each row represents a feature and each column represents an object. Explicitly set ``-object_in_row`` to let each row represent an object and each column represent a feature.
+
+- ``-sep SEP``, by default ``SEP`` is set as ``,``, specifies the delimiter to parse the data files.
+
+- ``-data_files DATA_FILES [DATA_FILES ...]`` specifies the input data files (at least one). Each data file contains a table where each row correspond to a feature, and each column corresponds to an object. The row number can vary but the column number must be consistent.All values are separated by ``SEP``.
+
+- ``-signed_graph_file SIGNED_GRAPH_FILE`` specifies the signed graph encoding either the positive-links and negative-links information. Each row represents one edge in the format: ``object_A SEP object_B SEP weight``. The edge is undirected. The index of objects starts from ``1`` instead of ``0``. The weight is ``1`` for positive-links and ``-1`` for negative links, respectively.
+                        
+
+- ``help``, by default ``True``, specifies whether the parser should
+  automatically print the help message (supplied as ``doc``) and
+  terminate, in case ``-h`` or ``--help`` option is encountered
+  (options should exist in usage pattern, more on that below). If you
+  want to handle ``-h`` or ``--help`` options manually (as other
+  options), set ``help=False``.	
 
 
- - Optional arguments:
- 	-h, --help				show this help message and exit
- 
-
-	-D < dist >: Comma-separated list of distance measurements,  **E.g.** -D D2star,Ma,CVtree. The options include: 
-				
-	-F < fa_Dir >: Folder containing only fasta files with extension '.fasta', '.fa', and '.fna'.
-	
-	-I < fa_files >: Comma-separated list of sequence fasta files, e.g. -I speciesA.fa,speciesB.fa,speciesC.fa. Pairwise similarity is calculated based upon the sequences specified with this option.
-	
-	-K < intK >: Kmer Length.
 	
 ----------
 Contacts and bug reports
