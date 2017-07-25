@@ -66,7 +66,7 @@ complete documentation of these. These can also be viewed by typing ``heteroRP.p
 
 Input arguments:
   
-- ``-skip_row_header`` is an optional argument to control whether the first column indicates the header. By default the program assumes there is no header explicitly given in the first column.Explicitly set ``-skip_row_header`` to be able to skip the first column as header for downstream analysis.
+- ``-skip_row_header`` is an optional argument to control whether the first column indicates the header. By default the program assumes there is no header explicitly given in the first column. Explicitly set ``-skip_row_header`` to be able to skip the first column as header for downstream analysis.
 
 - ``-skip_column_header`` is an optional argument to control whether the first row indicates the header. By default the program assumes there is no header explicitly given in the first row. Explicitly set ``-skip_column_header`` to be able to skip the first row as header for downstream analysis.
 
@@ -74,20 +74,29 @@ Input arguments:
 
 - ``-sep SEP``, by default ``SEP`` is set as ``,``, specifies the delimiter to parse the data files.
 
-- ``-data_files DATA_FILES [DATA_FILES ...]`` specifies the input data files (at least one). Each data file contains a table where each row correspond to a feature, and each column corresponds to an object. The row number can vary but the column number must be consistent.All values are separated by ``SEP``.
+- ``-data_files DATA_FILES [DATA_FILES ...]`` specifies the input data files (at least one). Each data file contains a table where each row correspond to a feature, and each column corresponds to an object. The row number can vary but the column number must be consistent. All values are separated by ``SEP``.
 
 - ``-signed_graph_file SIGNED_GRAPH_FILE`` specifies the signed graph encoding either the positive-links and negative-links information. Each row represents one edge in the format: ``object_A SEP object_B SEP weight``. The edge is undirected. The index of objects starts from ``1`` instead of ``0``. The weight is ``1`` for positive-links and ``-1`` for negative links, respectively.
 
 
-                        
+Preprocessing arguments:
 
-- ``help``, by default ``True``, specifies whether the parser should
-  automatically print the help message (supplied as ``doc``) and
-  terminate, in case ``-h`` or ``--help`` option is encountered
-  (options should exist in usage pattern, more on that below). If you
-  want to handle ``-h`` or ``--help`` options manually (as other
-  options), set ``help=False``.	
+- ``-check_feature_validity`` is an optional argument to check whether the feature is informative or not. By default the program assumes all features are informative and skip the checking. Explicitly set ``-check_feature_validity`` to be able to check the features one by one.
 
+- ``-label_file LABEL_FILE`` specifies the label file which may used to check the feature validity (optional). Each row is an integer number indicating the group of corresponding object, the total number of objects must be consistent with the data files.
+
+- ``-p_value P_VALUE``, by default ``P_VALUE`` is set as ``0.05``, which is used in multi-modality test or t-test depending on the availability of the label file.
+
+
+Program arguments:
+
+- ``-use_knn`` is an optional argument to combine the auxiliary knowledge signed graph with the k-nearest-neighbor graph constructed from the input data. By default the program assumes sufficient auxiliary knowledge and skip the construction of k-nearest-neighbor graph. Explicitly set ``-use_knn`` to be able to combine the auxiliary knowledge signed graph with the k-nearest-neighbor graph constructed from the input data.
+
+- ``-k K``, by default ``K`` is set as ``sqrt(n)`` in k-nearest-neighbor graph, where ``n`` is the number of objects. 
+
+- ``-gammaVal GAMMAVAL`` specifies the parameter to control the trade-off between the auxiliary knowledge signed graph and the k-nearest-neighbor graph constructed from the input data. By default ``GAMMAVAL`` is automatically provided to achieve the balanced contribution between two.
+
+- ``-lambdaVal LAMBDAVAL`` specifies the parameter which shrinks weight towards unit and towards each other. By default ``LAMBDAVAL`` is automatically chosen by Scaled-Lasso.
 
 	
 ----------
