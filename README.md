@@ -77,6 +77,8 @@ Input arguments:
 - ``-data_files DATA_FILES [DATA_FILES ...]`` specifies the input data files (at least one). Each data file contains a table where each row correspond to a feature, and each column corresponds to an object. The row number can vary but the column number must be consistent.All values are separated by ``SEP``.
 
 - ``-signed_graph_file SIGNED_GRAPH_FILE`` specifies the signed graph encoding either the positive-links and negative-links information. Each row represents one edge in the format: ``object_A SEP object_B SEP weight``. The edge is undirected. The index of objects starts from ``1`` instead of ``0``. The weight is ``1`` for positive-links and ``-1`` for negative links, respectively.
+
+
                         
 
 - ``help``, by default ``True``, specifies whether the parser should
