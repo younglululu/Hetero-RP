@@ -1,48 +1,82 @@
 # Hetero-RP
-Heterogeneity Rescaling Pursuit: Enhanced Clustering and Classification in Integrative Genomics
+Heterogeneity Rescaling Pursuit: Enhanced Clustering/Classification in Integrative Genomics
 ===================
 
-Heterogeneity Rescaling Pursuit (Hetero-RP) is a general preprocessing framework for integrative genomic studies. Hetero-RP is formulated as seeking a feature scaling transformation with the aid of implicitly existing auxiliary knowledge. And Hetero-RP is a a scalable and tuning-free algorithm to weigh important features more highly than less important ones. The effectiveness of Hetero-RP is demonstrated in several applications, including metagenomic contig binning, RBP binding site prediction, and cancer subtype stratification. The applications cover both clustering and classification problems. In each case, a combination of Hetero-RP with state-of-the-art approaches improves the yet satisfactory performance further, showing the wide applicability of the framework.
+High-throughput technologies have led to large collections of different types of biological data that provide unprecedented opportunities to unravel molecular heterogeneity of biological processes. Nevertheless, how to jointly explore data from multiple sources into a holistic, biologically meaningful interpretation remains challenging. 
 
+Heterogeneity Rescaling Pursuit (Hetero-RP) is a scalable and tuning-free preprocessing framework, which weighs important features more highly than less important ones in accord with implicitly existing auxiliary knowledge. 
 
-----------
-Description
----------------
-This package contains the following files and directories.
+Hetero-RP is implemented in python, with dependencies on following packages:
 
-	code/buildKnnGraph.m -> To build the intrinsic structure of input data when the attraction-link set is sparse, 
-	code/heteroRP.m -> calculate the rescaling, the key algorithm
-	code/run_metagenome.m -> a demo on using Hetero-RP in metagenome data
-	code/run_rbp.m ->  a demo on using Hetero-RP in rbp data
-	code/cvx -> Software for Disciplined Convex Programming [1]
-	data/ -> datasets directory
-	
-Please try to execute 'run_metagenome.m' or 'run_rbp.m' to learn how to use Hetero-RP to enhance the data from multiple sources in either clustering or classification scenarios. And please check 'heteroRP.m' for the detailed usage of the algorithm.
-	
+	numpy  
+	scipy
+	pandas
+	scikit-learn
+	cvxopt
+	diptest
 
 ----------
-Setup cvx
+Setup Hetero-RP by Anaconda
 ---------------
+Here we describe using Anaconda to run Hetero-RP on Linux/Unix. Anaconda is a tool to isolate your python installation, which allows you to have multiple parallel installations using different versions of different packages, and gives you a very convenient and fast way to install the most common scientific python packages. Anaconda can be downloaded from [here](https://www.continuum.io/downloads) 
 
-Before using Hetero-RP, the users are expected to setup the enviroment of cvx.
+After installing Anaconda, create a new environment that will contain the Hetero-RP installation:
 
-First of all, we change the current working directory to the code folder and unzip the cvx.
 ```sh
-$ cd code/
-$ unzip cvx.zip
+$ conda create -n heterorp_env python=2.7.6
 ```
-Next, we open the matlab and change the current working directory to the code folder
-```matlab
->> cd cvx
->> cvx_setup
->> cvx_startup
->> cd ..
+
+After creating the Anaconda environment, run the following command to activate it:
+
+```sh
+$ source activate heterorp_env
 ```
-Finally, we can run the demo
-```matlab
->> run_metagenome
->> run_rbp
+
+After that, install the Hetero-RP dependencies into this environment:
+
+```sh
+$ conda install -c anaconda numpy scipy pandas scikit-learn cvxopt
 ```
+
+Finally, install diptest from the local package:
+
+```sh
+$ gunzip diptest-master.zip
+$ cd diptest-master/
+$ python setup.py install
+$ cd ..
+```
+
+----------
+Usage of Hetero-RP
+------------------------
+Hetero-RP uses several command line options, here is a
+complete documentation of these. These can also be viewed by typing ``heteroRP.py
+-h`` on the command line:
+
+.. program-output:: (echo 'import conf'; cat ./heteroRP.py; echo 'args=arguments()') | python - --help
+   :shell:
+
+
+
+
+**Command:  ** heteroRP.py [-h] [-skip_row_header] [-skip_column_header]
+                   [-object_in_row] [-sep SEP]
+                   [-data_files DATA_FILES [DATA_FILES ...]]
+                   [-signed_graph_file SIGNED_GRAPH_FILE]
+                   [-check_feature_validity] [-label_file LABEL_FILE]
+                   [-p_value P_VALUE] [-use_knn] [-k K] [-gammaVal GAMMAVAL]
+                   [-lambdaVal LAMBDAVAL] [-output_dir OUTPUT_DIR] [-viz]
+
+ - Main arguments:
+
+	-D < dist >: Comma-separated list of distance measurements,  **E.g.** -D D2star,Ma,CVtree. The options include: 
+				
+	-F < fa_Dir >: Folder containing only fasta files with extension '.fasta', '.fa', and '.fna'.
+	
+	-I < fa_files >: Comma-separated list of sequence fasta files, e.g. -I speciesA.fa,speciesB.fa,speciesC.fa. Pairwise similarity is calculated based upon the sequences specified with this option.
+	
+	-K < intK >: Kmer Length.
 	
 ----------
 Contacts and bug reports
@@ -57,7 +91,7 @@ Prof. Fengzhu Sun: [fsun@usc.edu](mailto:fsun@usc.edu)
 ----------
 Copyright and License Information
 ---------------------------------
-Copyright (C) 2016 University of Southern California, Yang Lu
+Copyright (C) 2017 University of Southern California, Yang Lu
 
 Authors: Yang Lu
 
@@ -81,4 +115,4 @@ References
 
 
 
-Last update: 30-Dec-2016
+Last update: 24-Jul-2017
