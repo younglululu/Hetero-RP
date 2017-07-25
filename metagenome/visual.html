@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+		<meta name="mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+	    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+	    <meta name="apple-mobile-web-app-title" content="Material Design Lite">
+    	<title>eature Plotting by Hetero-RP</title>
+    	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.deep_purple-pink.min.css">
+	    <!--<link rel="stylesheet" href="../circos/styles.css">-->
+	    
+	    <script src='https://cdn.rawgit.com/nicgirault/circosJS/v2/dist/circos.js'></script>
+	    <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+	    <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/4.5.0/d3.js'></script>
+	    <script src='https://cdnjs.cloudflare.com/ajax/libs/d3-queue/3.0.3/d3-queue.js'></script>
+	</head>
+	<style media="screen" type="text/css">
+		html, body {
+		  font-family: 'Roboto', 'Helvetica', sans-serif;
+		  margin: 0;
+		  padding: 0;
+		}
+		.mdl-demo .mdl-layout__header-row {
+		  padding-left: 40px;
+		}
+		.mdl-demo .mdl-layout.is-small-screen .mdl-layout__header-row h3 {
+		  font-size: inherit;
+		}
+		.mdl-demo .mdl-layout__tab-bar-button {
+		  display: none;
+		}
+		.mdl-demo .mdl-layout.is-small-screen .mdl-layout__tab-bar .mdl-button {
+		  display: none;
+		}
+		.mdl-demo .mdl-layout:not(.is-small-screen) .mdl-layout__tab-bar,
+		.mdl-demo .mdl-layout:not(.is-small-screen) .mdl-layout__tab-bar-container {
+		  overflow: visible;
+		}
+		.mdl-demo .mdl-layout__tab-bar-container {
+		  height: 64px;
+		}
+		.mdl-demo .mdl-layout__tab-bar {
+		  padding: 0;
+		  padding-left: 16px;
+		  box-sizing: border-box;
+		  height: 100%;
+		  width: 100%;
+		}
+		.mdl-demo .mdl-layout__tab-bar .mdl-layout__tab {
+		  height: 64px;
+		  line-height: 64px;
+		}
+		.mdl-demo .mdl-layout__tab-bar .mdl-layout__tab.is-active::after {
+		  background-color: white;
+		  height: 4px;
+		}
+		.mdl-demo main > .mdl-layout__tab-panel {
+		  padding: 8px;
+		  padding-top: 48px;
+		}
+		.mdl-demo .mdl-card {
+		  height: auto;
+		  display: flex;
+		  flex-direction: column;
+		}
+		.mdl-demo .mdl-card > * {
+		  height: auto;
+		}
+		.mdl-demo .mdl-card .mdl-card__supporting-text {
+		  margin: 40px;
+		  flex-grow: 1;
+		  padding: 0;
+		  color: inherit;
+		  width: calc(100% - 80px);
+		}
+		.mdl-demo.mdl-demo .mdl-card__supporting-text h4 {
+		  margin-top: 0;
+		  margin-bottom: 20px;
+		}
+		.mdl-demo .mdl-card__actions {
+		  margin: 0;
+		  padding: 4px 40px;
+		  color: inherit;
+		}
+		.mdl-demo .mdl-card__actions a {
+		  color: #00BCD4;
+		  margin: 0;
+		}
+		.mdl-demo .mdl-card__actions a:hover,
+		.mdl-demo .mdl-card__actions a:active {
+		  color: inherit;
+		  background-color: transparent;
+		}
+		.mdl-demo .mdl-card__supporting-text + .mdl-card__actions {
+		  border-top: 1px solid rgba(0, 0, 0, 0.12);
+		}
+		.mdl-demo #add {
+		  position: absolute;
+		  right: 40px;
+		  top: 36px;
+		  z-index: 999;
+		}
+		
+		.mdl-demo .mdl-layout__content section:not(:last-of-type) {
+		  position: relative;
+		  margin-bottom: 48px;
+		}
+		.mdl-demo section.section--center {
+		  max-width: 860px;
+		}
+		.mdl-demo #features section.section--center {
+		  max-width: 620px;
+		}
+		.mdl-demo section > header{
+		  display: flex;
+		  align-items: center;
+		  justify-content: center;
+		}
+		.mdl-demo section > .section__play-btn {
+		  min-height: 200px;
+		}
+		.mdl-demo section > header > .material-icons {
+		  font-size: 3rem;
+		}
+		.mdl-demo section > button {
+		  position: absolute;
+		  z-index: 99;
+		  top: 8px;
+		  right: 8px;
+		}
+		.mdl-demo section .section__circle {
+		  display: flex;
+		  align-items: center;
+		  justify-content: flex-start;
+		  flex-grow: 0;
+		  flex-shrink: 1;
+		}
+		.mdl-demo section .section__text {
+		  flex-grow: 1;
+		  flex-shrink: 0;
+		  padding-top: 8px;
+		}
+		.mdl-demo section .section__text h5 {
+		  font-size: inherit;
+		  margin: 0;
+		  margin-bottom: 0.5em;
+		}
+		.mdl-demo section .section__text a {
+		  text-decoration: none;
+		}
+		.mdl-demo section .section__circle-container > .section__circle-container__circle {
+		  width: 64px;
+		  height: 64px;
+		  border-radius: 32px;
+		  margin: 8px 0;
+		}
+		.mdl-demo section.section--footer .section__circle--big {
+		  width: 100px;
+		  height: 100px;
+		  border-radius: 50px;
+		  margin: 8px 32px;
+		}
+		.mdl-demo .is-small-screen section.section--footer .section__circle--big {
+		  width: 50px;
+		  height: 50px;
+		  border-radius: 25px;
+		  margin: 8px 16px;
+		}
+		.mdl-demo section.section--footer {
+		  padding: 64px 0;
+		  margin: 0 -8px -8px -8px;
+		}
+		.mdl-demo section.section--center .section__text:not(:last-child) {
+		  border-bottom: 1px solid rgba(0,0,0,.13);
+		}
+		.mdl-demo .mdl-card .mdl-card__supporting-text > h3:first-child {
+		  margin-bottom: 24px;
+		}
+		.mdl-demo .mdl-layout__tab-panel:not(#overview) {
+		  background-color: white;
+		}
+		.mdl-demo #features section {
+		  margin-bottom: 72px;
+		}
+		.mdl-demo #features h4, #features h5 {
+		  margin-bottom: 16px;
+		}
+		.mdl-demo .toc {
+		  border-left: 4px solid #C1EEF4;
+		  margin: 24px;
+		  padding: 0;
+		  padding-left: 8px;
+		  display: flex;
+		  flex-direction: column;
+		}
+		.mdl-demo .toc h4 {
+		  font-size: 0.9rem;
+		  margin-top: 0;
+		}
+		.mdl-demo .toc a {
+		  color: #4DD0E1;
+		  text-decoration: none;
+		  font-size: 16px;
+		  line-height: 28px;
+		  display: block;
+		}
+		.mdl-demo .mdl-menu__container {
+		  z-index: 99;
+		}
+	</style>
+	
+	<body id='container' class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base">
+    	<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    		<!--<div class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">-->
+	    		<div class="mdl-card mdl-cell mdl-cell--12-col">
+	    			<div class="mdl-card__supporting-text">
+	    			<div id='heatmapChart'></div>
+	    			</div>
+	    		</div>
+    		<!--</div>-->
+		</div>
+		
+		<script type="text/javascript">
+			var colorArr=["#8dd3c7","#ffed6f","#bebada","#fb8072","#80b1d3","#fdb462","#b3de69","#fccde5","#d9d9d9","#bc80bd","#ccebc5","#ffffb3"];
+		var nameArr = ["abundance","abundance","abundance","abundance","abundance","abundance","abundance","abundance","abundance","abundance","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition","composition"];
+var startArr = [0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135];
+var valArr = [0.017153,0.051579,0.239175,0.098934,0.123099,0.015989,0.204449,0.118035,0.121654,0.024273,0.563144,0.798200,1.027504,1.089583,0.824602,1.095937,1.068231,1.075582,1.004172,1.122811,1.093987,1.071976,1.072237,1.127591,1.100963,1.143649,0.856564,1.077594,1.114896,1.129279,0.913215,1.027841,1.078267,1.061026,1.131324,1.087649,1.078478,1.036759,1.099173,1.021225,1.099852,0.998467,1.132460,1.180055,1.137974,1.178184,1.189632,1.121571,1.142830,1.154091,1.091541,1.059713,1.185802,1.027232,1.106623,1.081728,1.118207,1.167865,1.162627,1.143984,1.186862,1.100632,1.207404,1.065351,1.076332,1.077017,1.038512,1.163206,0.872948,1.148973,1.149198,1.100684,1.109173,1.097651,1.144789,1.196717,1.164843,1.117244,1.145756,1.146182,1.139484,1.149886,1.133502,1.026826,0.989503,1.037269,1.082255,1.028732,1.048695,1.075297,1.065649,1.150599,1.133017,1.160943,1.144561,1.102362,1.133303,0.991223,1.176009,1.015083,1.011764,1.115266,1.139968,1.105439,1.122044,1.151772,1.052199,1.049088,1.039918,1.116088,0.983070,1.115756,1.034885,1.133315,1.115673,1.083779,1.033830,1.102861,1.148362,1.215261,1.052890,1.072363,1.056998,0.998555,1.135361,1.100686,1.009571,1.074732,0.989185,0.653011,1.047864,0.920196,0.832028,0.763208,0.798759,0.535782,1.047381,1.179238,1.020965,1.036771,1.246918,0.975417,1.049878,0.999436,0.900225,1.050334];
+var tagArr = ["abundance_1","abundance_2","abundance_3","abundance_4","abundance_5","abundance_6","abundance_7","abundance_8","abundance_9","abundance_10","composition_1","composition_2","composition_3","composition_4","composition_5","composition_6","composition_7","composition_8","composition_9","composition_10","composition_11","composition_12","composition_13","composition_14","composition_15","composition_16","composition_17","composition_18","composition_19","composition_20","composition_21","composition_22","composition_23","composition_24","composition_25","composition_26","composition_27","composition_28","composition_29","composition_30","composition_31","composition_32","composition_33","composition_34","composition_35","composition_36","composition_37","composition_38","composition_39","composition_40","composition_41","composition_42","composition_43","composition_44","composition_45","composition_46","composition_47","composition_48","composition_49","composition_50","composition_51","composition_52","composition_53","composition_54","composition_55","composition_56","composition_57","composition_58","composition_59","composition_60","composition_61","composition_62","composition_63","composition_64","composition_65","composition_66","composition_67","composition_68","composition_69","composition_70","composition_71","composition_72","composition_73","composition_74","composition_75","composition_76","composition_77","composition_78","composition_79","composition_80","composition_81","composition_82","composition_83","composition_84","composition_85","composition_86","composition_87","composition_88","composition_89","composition_90","composition_91","composition_92","composition_93","composition_94","composition_95","composition_96","composition_97","composition_98","composition_99","composition_100","composition_101","composition_102","composition_103","composition_104","composition_105","composition_106","composition_107","composition_108","composition_109","composition_110","composition_111","composition_112","composition_113","composition_114","composition_115","composition_116","composition_117","composition_118","composition_119","composition_120","composition_121","composition_122","composition_123","composition_124","composition_125","composition_126","composition_127","composition_128","composition_129","composition_130","composition_131","composition_132","composition_133","composition_134","composition_135","composition_136"];
+var lenArr = [10,136];
+var labelArr = ["abundance","composition"];
+			
+			var lenSum = lenArr.reduce(function(a, b) { return a + b; }, 0); var gap = 0.04; var gapSum = gap*lenArr.length; var unitLen=(2*Math.PI-gapSum)/lenSum; 
+			var currStart=0; var currOffset=0;
+
+			var weights = []; var names = []; var nameColor = {};
+			for(var t=0; t<nameArr.length; t++) {
+				var feat= { name:nameArr[t],start:startArr[t],end:startArr[t]+1,value:valArr[t],tag:tagArr[t] };
+				weights.push(feat);
+			}
+			//console.log(weights);
+			for(var t=0; t<lenArr.length; t++) {
+				var currEnd = currStart+lenArr[t]*unitLen;
+				var name1 = {len:lenArr[t],color:colorArr[t%colorArr.length],label:labelArr[t],id:labelArr[t],offset:currOffset,start:currStart,end:currEnd};
+				names.push(name1); nameColor[labelArr[t]]=colorArr[t%colorArr.length];
+				currStart = currEnd+gap; currOffset = currOffset+lenArr[t];
+			}
+			//console.log(names);
+		
+			var width = Math.min(document.getElementById('container').offsetWidth, document.getElementById('container').offsetHeight); 
+			var circosHeatmap = new Circos({
+				container: '#heatmapChart',
+				width: width,
+				height: width
+			});
+			var configuration1 = {
+				innerRadius: width/2 *0.5,
+				outerRadius: width/2 *0.55,
+				cornerRadius: 10,
+				ticks: {display: false},
+				labels: {
+					position: 'center',
+					display: true,
+					size: 14,
+					color: '#000',
+					radialOffset: 15
+				}
+			};
+			var configuration2 = {
+				innerRadius: 1.01,
+				outerRadius: 1.81,
+				logScale: false,
+				tooltipContent: function (d) { return d.tag+": "+d.value; },
+				opacity: 0.6,
+				color: function (d) { return nameColor[d.block_id]; }
+			};
+			var configuration3 = {innerRadius: 0.90,outerRadius: 0.99,color: function (d) { return d.value>=1.2?'rgb(78,3,11)':'#ffffff'; },tooltipContent: function (d) { return d.tag+": "+d.value+' in range [1.2,+Inf)?'; }};
+			var configuration4 = {innerRadius: 0.80,outerRadius: 0.89,color: function (d) { return d.value>=1.1 && d.value<1.2?'rgb(146,5,19)':'#ffffff'; },tooltipContent: function (d) { return d.tag+": "+d.value+' in range [1.1,1.2)?'; }};
+			var configuration5 = {innerRadius: 0.70,outerRadius: 0.79,color: function (d) { return d.value>=1.0 && d.value<1.1?'rgb(200,6,26)':'#ffffff'; },tooltipContent: function (d) { return d.tag+": "+d.value+' in range [1.0,1.1)?'; }};
+			var configuration6 = {innerRadius: 0.60,outerRadius: 0.69,color: function (d) { return d.value>=0.9 && d.value<1.0?'rgb(236,9,31)':'#ffffff'; },tooltipContent: function (d) { return d.tag+": "+d.value+' in range [0.9,1.0)?'; }};
+			var configuration7 = {innerRadius: 0.50,outerRadius: 0.59,color: function (d) { return d.value>=0.8 & d.value<0.9?'rgb(249,57,77)':'#ffffff'; },tooltipContent: function (d) { return d.tag+": "+d.value+' in range [0.8,0.9)?'; }};
+			var configuration8 = {innerRadius: 0.40,outerRadius: 0.49,color: function (d) { return d.value>=0.7 & d.value<0.8?'rgb(250,103,118)':'#ffffff'; },tooltipContent: function (d) { return d.tag+": "+d.value+' in range [0.7,0.8)?'; }};
+			var configuration9 = {innerRadius: 0.30,outerRadius: 0.39,color: function (d) { return d.value>=0.6 & d.value<0.7?'rgb(251,134,146)':'#ffffff'; },tooltipContent: function (d) { return d.tag+": "+d.value+' in range [0.6,0.7)?'; }};
+			var configuration10 = {innerRadius: 0.20,outerRadius: 0.29,color: function (d) { return d.value<0.6?'rgb(253,196,201)':'#ffffff'; },tooltipContent: function (d) { return d.tag+": "+d.value+' in range [0,0.6)?'; }};
+
+			function drawCircos() {				
+				weights = weights.map(function(d) {
+									return {
+										block_id: d.name,
+										start: parseInt(d.start),
+										end: parseInt(d.end),
+										tag: d.tag,
+										value: parseFloat(d.value)
+									};
+								}); 
+				
+				circosHeatmap.layout(names, configuration1);
+				circosHeatmap.histogram('weights2', weights, configuration2 );
+				circosHeatmap.highlight('weights3', weights, configuration3 );
+				circosHeatmap.highlight('weights4', weights, configuration4 );
+				circosHeatmap.highlight('weights5', weights, configuration5 );
+				circosHeatmap.highlight('weights6', weights, configuration6 );
+				circosHeatmap.highlight('weights7', weights, configuration7 );
+				circosHeatmap.highlight('weights8', weights, configuration8 );
+				circosHeatmap.highlight('weights9', weights, configuration9 );
+				circosHeatmap.highlight('weights10', weights, configuration10 );
+				
+		      	circosHeatmap.render();
+			  	
+			}
+			drawCircos();
+		</script>
+ 	</body>
+</html>

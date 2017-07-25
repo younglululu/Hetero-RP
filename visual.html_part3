@@ -1,0 +1,83 @@
+			
+			var lenSum = lenArr.reduce(function(a, b) { return a + b; }, 0); var gap = 0.04; var gapSum = gap*lenArr.length; var unitLen=(2*Math.PI-gapSum)/lenSum; 
+			var currStart=0; var currOffset=0;
+
+			var weights = []; var names = []; var nameColor = {};
+			for(var t=0; t<nameArr.length; t++) {
+				var feat= { name:nameArr[t],start:startArr[t],end:startArr[t]+1,value:valArr[t],tag:tagArr[t] };
+				weights.push(feat);
+			}
+			//console.log(weights);
+			for(var t=0; t<lenArr.length; t++) {
+				var currEnd = currStart+lenArr[t]*unitLen;
+				var name1 = {len:lenArr[t],color:colorArr[t%colorArr.length],label:labelArr[t],id:labelArr[t],offset:currOffset,start:currStart,end:currEnd};
+				names.push(name1); nameColor[labelArr[t]]=colorArr[t%colorArr.length];
+				currStart = currEnd+gap; currOffset = currOffset+lenArr[t];
+			}
+			//console.log(names);
+		
+			var width = Math.min(document.getElementById('container').offsetWidth, document.getElementById('container').offsetHeight); 
+			var circosHeatmap = new Circos({
+				container: '#heatmapChart',
+				width: width,
+				height: width
+			});
+			var configuration1 = {
+				innerRadius: width/2 *0.5,
+				outerRadius: width/2 *0.55,
+				cornerRadius: 10,
+				ticks: {display: false},
+				labels: {
+					position: 'center',
+					display: true,
+					size: 14,
+					color: '#000',
+					radialOffset: 15
+				}
+			};
+			var configuration2 = {
+				innerRadius: 1.01,
+				outerRadius: 1.81,
+				logScale: false,
+				tooltipContent: function (d) { return d.tag+": "+d.value; },
+				opacity: 0.6,
+				color: function (d) { return nameColor[d.block_id]; }
+			};
+			var configuration3 = {innerRadius: 0.90,outerRadius: 0.99,color: function (d) { return d.value>=1.2?'rgb(78,3,11)':'#ffffff'; },tooltipContent: function (d) { return d.tag+": "+d.value+' in range [1.2,+Inf)?'; }};
+			var configuration4 = {innerRadius: 0.80,outerRadius: 0.89,color: function (d) { return d.value>=1.1 && d.value<1.2?'rgb(146,5,19)':'#ffffff'; },tooltipContent: function (d) { return d.tag+": "+d.value+' in range [1.1,1.2)?'; }};
+			var configuration5 = {innerRadius: 0.70,outerRadius: 0.79,color: function (d) { return d.value>=1.0 && d.value<1.1?'rgb(200,6,26)':'#ffffff'; },tooltipContent: function (d) { return d.tag+": "+d.value+' in range [1.0,1.1)?'; }};
+			var configuration6 = {innerRadius: 0.60,outerRadius: 0.69,color: function (d) { return d.value>=0.9 && d.value<1.0?'rgb(236,9,31)':'#ffffff'; },tooltipContent: function (d) { return d.tag+": "+d.value+' in range [0.9,1.0)?'; }};
+			var configuration7 = {innerRadius: 0.50,outerRadius: 0.59,color: function (d) { return d.value>=0.8 & d.value<0.9?'rgb(249,57,77)':'#ffffff'; },tooltipContent: function (d) { return d.tag+": "+d.value+' in range [0.8,0.9)?'; }};
+			var configuration8 = {innerRadius: 0.40,outerRadius: 0.49,color: function (d) { return d.value>=0.7 & d.value<0.8?'rgb(250,103,118)':'#ffffff'; },tooltipContent: function (d) { return d.tag+": "+d.value+' in range [0.7,0.8)?'; }};
+			var configuration9 = {innerRadius: 0.30,outerRadius: 0.39,color: function (d) { return d.value>=0.6 & d.value<0.7?'rgb(251,134,146)':'#ffffff'; },tooltipContent: function (d) { return d.tag+": "+d.value+' in range [0.6,0.7)?'; }};
+			var configuration10 = {innerRadius: 0.20,outerRadius: 0.29,color: function (d) { return d.value<0.6?'rgb(253,196,201)':'#ffffff'; },tooltipContent: function (d) { return d.tag+": "+d.value+' in range [0,0.6)?'; }};
+
+			function drawCircos() {				
+				weights = weights.map(function(d) {
+									return {
+										block_id: d.name,
+										start: parseInt(d.start),
+										end: parseInt(d.end),
+										tag: d.tag,
+										value: parseFloat(d.value)
+									};
+								}); 
+				
+				circosHeatmap.layout(names, configuration1);
+				circosHeatmap.histogram('weights2', weights, configuration2 );
+				circosHeatmap.highlight('weights3', weights, configuration3 );
+				circosHeatmap.highlight('weights4', weights, configuration4 );
+				circosHeatmap.highlight('weights5', weights, configuration5 );
+				circosHeatmap.highlight('weights6', weights, configuration6 );
+				circosHeatmap.highlight('weights7', weights, configuration7 );
+				circosHeatmap.highlight('weights8', weights, configuration8 );
+				circosHeatmap.highlight('weights9', weights, configuration9 );
+				circosHeatmap.highlight('weights10', weights, configuration10 );
+				
+		      	circosHeatmap.render();
+			  	
+			}
+			drawCircos();
+		</script>
+ 	</body>
+</html>
