@@ -54,13 +54,9 @@ Hetero-RP uses several command line options, here is a
 complete documentation of these. These can also be viewed by typing ``heteroRP.py
 -h`` on the command line:
 
-.. program-output:: (echo 'import conf'; cat ./heteroRP.py; echo 'args=arguments()') | python - --help
-   :shell:
+.. code:: python
 
-
-
-
-**Command:  ** heteroRP.py [-h] [-skip_row_header] [-skip_column_header]
+    """Usage: usage: heteroRP.py [-h] [-skip_row_header] [-skip_column_header]
                    [-object_in_row] [-sep SEP]
                    [-data_files DATA_FILES [DATA_FILES ...]]
                    [-signed_graph_file SIGNED_GRAPH_FILE]
@@ -68,7 +64,18 @@ complete documentation of these. These can also be viewed by typing ``heteroRP.p
                    [-p_value P_VALUE] [-use_knn] [-k K] [-gammaVal GAMMAVAL]
                    [-lambdaVal LAMBDAVAL] [-output_dir OUTPUT_DIR] [-viz]
 
- - Main arguments:
+    -h --help    show this
+    -s --sorted  sorted output
+    -o FILE      specify output file [default: ./test.txt]
+    --quiet      print less text
+    --verbose    print more text
+
+    """
+
+
+ - Optional arguments:
+ 	-h, --help				show this help message and exit
+ 
 
 	-D < dist >: Comma-separated list of distance measurements,  **E.g.** -D D2star,Ma,CVtree. The options include: 
 				
